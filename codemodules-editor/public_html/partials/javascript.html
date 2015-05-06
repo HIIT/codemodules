@@ -1,0 +1,71 @@
+<div height="300px">
+
+<h3>Muuttujat ja laskenta</h3>
+
+<p>
+Muuttujaan voidaan säilöä erilaisia arvoja, kuten
+<code>x = 5;</code>, <code>y = 4;</code> tai <code>z = true;</code>.
+
+Myöhemmin näitä samoja arvoja voidaan muuttaa myöhemmin, esimerkiksi 
+<code>x = 4;</code> tai <code>y = x + 1</code>. Jälkikkäisessä esimerkissä muuttujan
+<code>y</code> arvo riippuu muuttujan <code>x</code> arvosta suoritushetkellä.
+
+Tässä tapauksessa siis <code>y</code> saisi arvon 5. Huomaa, että <code>y</code>n
+arvo ei muutu, vaikka <code>x</code>n arvo muuttuisi.
+</p>
+
+<p>
+Lukuja voi laskea normaalisti: <code>1+5</code>, <code>7-2</code>,
+<code>5/3</code> sekä <code>3*2</code> toimivat kuten luulisitkin.
+
+Usein laskennan tulos tallennetaan muuttujaan, eli <code>luku = 1+5;</code>
+tai muuttujaa käytetään laskennan osana: <code>luku = luku / 2;</code>.
+
+</p>
+
+<p>
+
+Muuttujalla on nimi, esimerkiksi yllä esitetyjen muuttujien nimet ovat <code>x</code>,
+<code>y</code> ja <code>luku</code>. Muista nimetä muuttuja selkeästi sen tarkoituksen mukaisesti.
+
+</p>
+    
+<h3>Funktiot ja paluuarvot</h3>
+
+<p>
+
+Ohjelmakielissä on usein tarpeen toistaa samaa rutiinia pienillä muutoksilla.
+
+Tätä varten ohjelmakoodissa on mahdollisuus tehdä funktiota:</p>
+
+<code>function kerroKahdella(sisään){<br/>
+&nbsp;&nbsp;var ulos = sisään * 2;</br>
+&nbsp;&nbsp;return ulos;
+}</code>
+<p>
+    
+<code>sisään</code> on muuttuja, jota funktio käsittelee - näitä voi olla
+myös useita pilkuilla eroteltuna. Tehtyään tarvittavat laskutoimitukset,
+funktio palauttaa luvun <code>ulos</code> (tai, minkä tahansa asian joka on ennen return-sanaa).
+
+</p>
+
+<h3>Ehtolause</h3>
+
+<p>
+
+Joskus on tarpeen suorittaa tiettyjä komentoja vain ehdon ollessa voimassa.
+
+Tähän käyttöön on olemassa if-lause: </p>
+
+<code>if( x == 5 ) {<br>
+&nbsp;&nbsp; x = 0;<br/>
+}</code></p>
+
+<p>
+Nyt muuttuja <code>x</code> saa arvokseen nollan jos ja vain jos x on viisi.
+Ehtoina voi käyttää matematiikasta tuttuja merkkejä: <code>&lt;</code>, <code>&gt;</code>
+sekä <code>==</code> (huomaa: kaksi yhtäsuuruusmerkkiä).
+</p>
+
+</div>
