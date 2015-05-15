@@ -8,7 +8,7 @@ The toolset includes an integrated development and assesment environment and pro
 
 ## More info
 
-  * [http://www.hiit.fi/node/3215](HIIT news: Integrating programming into every school subject)
+  * [HIIT news: Integrating programming into every school subject](http://www.hiit.fi/node/3215)
 
 ## People
 
