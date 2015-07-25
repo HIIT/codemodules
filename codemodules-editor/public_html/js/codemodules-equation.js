@@ -37,6 +37,11 @@ app.controller("EquationController", function($scope, Evaluator, CommonInit) {
         $scope.varLeft = r();
         $scope.numRight = r();
         $scope.varRight = r();
+        
+        if( $scope.varLeft == $scope.varRight ) {
+            $scope.varLeft + r();
+        }
+        
         $scope.varX = "";
         
     };
