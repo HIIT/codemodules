@@ -5,7 +5,7 @@ app.controller("EquationController", function($scope, Evaluator, CommonInit) {
     CommonInit.init( $scope, Evaluator );
     
     
-    $scope.code = "onkoOikein = function(vasenVakio, vasenKerron, oikeaVakio, oikeaKerroin, arvaus) {\n return true; \n}";
+    $scope.code = "onkoOikein = function(vasenVakio, vasenKerroin, oikeaVakio, oikeaKerroin, arvaus) {\n return true; \n}";
     
     $scope.init = function() {
         
