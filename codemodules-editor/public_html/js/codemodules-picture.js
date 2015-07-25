@@ -27,7 +27,7 @@ app.controller("PictureController", function($scope, Evaluator, CommonInit) {
         var height = canvas.height;
         var width = canvas.width;
         
-        canvas = canvas.getContext('2d');
+        context = canvas.getContext('2d');
         
         fr.onload = function() {
             image.src = fr.result;
@@ -38,10 +38,23 @@ app.controller("PictureController", function($scope, Evaluator, CommonInit) {
         };
         
         image.onload = function() {
-          canvas.drawImage( image , 0 , 0 );
-          
-          $scope.canvas = canvas;
-          $scope.image = canvas.getImageData(0, 0, width, height);
+            
+            // scale image
+            var ratio = 1;
+            
+            if( image.width > width ) ratio = width / image.width;
+            if( image.height > height ) ratio = height / image.height;
+            
+            // scale canvas
+            canvas.width = image.width * ratio;
+            canvas.height = image.height * ratio;
+            
+            // set image and scale it
+            context.drawImage( image, 0, 0, image.width, image.height, 0, 0, canvas.width, canvas.height);
+
+            $scope.canvas = canvas;
+            $scope.context = context;
+            $scope.image = context.getImageData(0, 0, canvas.width, canvas.height );
         };
         
         fr.readAsDataURL( file );
@@ -49,12 +62,15 @@ app.controller("PictureController", function($scope, Evaluator, CommonInit) {
     };
     
     $scope.reset = function() {
-        $scope.canvas.putImageData( $scope.image , 0, 0);
+        $scope.context.putImageData( $scope.image , 0, 0);
     };
     
     
     $scope.run = function() {
-        var image = $scope.canvas.getImageData(0, 0, 200, 200);
+        
+        console.log( $scope.canvas.width );
+        
+        var image = $scope.context.getImageData(0, 0, $scope.canvas.width, $scope.canvas.height );
         
         var d;
         for( var i = 0; i < image.data.length; i += 4 ) {
@@ -64,7 +80,7 @@ app.controller("PictureController", function($scope, Evaluator, CommonInit) {
             image.data[i+2] = d[2];   
         }
         
-        $scope.canvas.putImageData( image , 0, 0);
+        $scope.context.putImageData( image , 0, 0);
     };
     
     // we can use this some day
