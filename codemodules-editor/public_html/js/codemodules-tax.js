@@ -70,7 +70,7 @@ app.controller("TaxController", function($scope, Evaluator, CommonInit) {
             }
         },
         {
-            text: "16 300 euron ja 24 300 euron välillä veroa maksetaan 8 euroa sekä 6.5 prosenttia kustakin ylittävästä osuudesta",
+            text: "16 300 euron ja 24 300 euron välillä veroa maksetaan 8 euroa sekä 6.5 prosenttia kustakin ylittävästä osuudesta. Muut maksavat 1000 euron tasaveron.",
             correct: function(salary) { 
                 if( salary < 16300 ) return 0;
                 if( salary < 24300 ) return 8 + (24300-salary)*0.065;
