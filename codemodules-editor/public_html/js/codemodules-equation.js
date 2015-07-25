@@ -41,50 +41,63 @@ app.controller("EquationController", function($scope, Evaluator, CommonInit) {
         
     };
     
-    $scope._assess = function(numLeft, varLeft, numRight, varRight, varX) {
+    $scope._assess = function() {
         
-        numLeft = parseInt(numLeft);
-        varLeft = parseInt(varLeft);
-        numRight = parseInt(numRight);
-        varRight = parseInt(varRight);
-        varX = parseInt( varX );
-
-        var res = onkoOikein(numLeft, varLeft, numRight, varRight, varX);
+        var f = this.guide[ this.state ].correct;
         
-        console.log( this.guide[ this.state ].correct );
         
-        if( res === this.guide[ this.state ].correct() ) {
-            return true;
+        for( var a = -10; a <= 10; a ++ ) {
+            for( var b = -10; b <= 10; b++ ) {
+                for( var c = -10; c <= 10; c++ ) {
+                    for( var d = -10; d <= 10; d++ ) {
+                        for( var e = -10; e <= 10; e++) {
+                            
+                            var cor = f(a,b,c,d,e);
+                            var student = onkoOikein(a,b,c,d,e);
+                            
+                            // division by zero is OK!
+                            if( isNaN( cor ) && isNaN( student ) ) {
+                                // go to next numbers
+                            }
+                            // check for correctness
+                            else if( cor != student ) {
+                                return false;
+                            }
+                            
+                        }
+                    }
+                }
+            }
         }
         
-        return false;
+        return true;
     
     };
     
     $scope.guide = [
         {
             text: "Muokkaa koodia siten, että kaikki vastaukset ovat väärin",
-            correct: function() { return false; }
+            correct: function(a,b,c,d,e) { return false; }
         },
         {
             text: "Palauta yhtälön vasen vakio",
-            correct: function() { return $scope.numLeft; }
+            correct: function(a,b,c,d,e) { return a; }
         },
         {
-            text: "Palauta yhtälön oikean ja vasemman vakion erotus",
-            correct: function() { return $scope.numRight - $scope.numLeft; }
+            text: "Palauta yhtälön vasemman ja oikean vakion erotus",
+            correct: function(a,b,c,d,e) { return a - c; }
         },
         {
-            text: "Palauta yhtälön oikean ja vasemman kertoimen erotus",
-            correct: function() { return $scope.varRight - $scope.varLeft; }
+            text: "Palauta yhtälön vasemman ja oikean kertoimen erotus",
+            correct: function(a,b,c,d,e) { return b - d; }
         },
         {
             text: "Palauta yhtälön vakioiden erotuksen ja kertoimien erotusten osamäärä",
-            correct: function() { return ($scope.numRight - $scope.numLeft) / ($scope.varRight - $scope.varLeft); }
+            correct: function(a,b,c,d,e) { return (a-c) / (b -d ); }
         },
         {
             text: "Tarkista, onko arvaus sama kuin erotusten osamäärä",
-            correct: function() { return $scope.varX == ($scope.numRight - $scope.numLeft) / ($scope.varRight - $scope.varLeft); }
+            correct: function(a,b,c,d,e) { return e == (a-c) / (b -d ); }
         }
     ];
 
