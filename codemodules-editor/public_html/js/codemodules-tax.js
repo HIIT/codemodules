@@ -5,7 +5,7 @@ app.controller("TaxController", function($scope, Evaluator, CommonInit) {
     
     CommonInit.init( $scope, Evaluator );
     
-    $scope.code = "laskeVerot = function(palkka) {\n return 500; \n}";
+    $scope.code = "laskeVerot = function(vuosipalkka) {\n return 500; \n}";
     
     $scope.init = function() {
         $scope.session.setValue( this.code );
