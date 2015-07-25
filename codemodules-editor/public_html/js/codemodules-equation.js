@@ -24,9 +24,9 @@ app.controller("EquationController", function($scope, Evaluator, CommonInit) {
         var res = onkoOikein( $scope.numLeft, $scope.varLeft, $scope.numRight, $scope.varRight, varX);
         
         if( res ) {
-            alert("Vastaus oli oikein!");
+            $scope.answer_status = "Vastaus on oikein";
         } else {
-            alert("Vastaus oli väärin");
+            $scope.answer_status = "Vastaus on väärin";
         }
 
         // new variables
