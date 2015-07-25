@@ -155,19 +155,19 @@ app.controller("PictureController", function($scope, Evaluator, CommonInit) {
     $scope.guide = [
         {
             text: "Muuta kaikki punaiset värit mustaksi",
-            correct: function(r,g,b) { return [0, g, b] }
+            correct: function(r,g,b) { return [0, g, b]; }
         },
         {
             text: "Käännä punainen väri ympäri: tummasta valkoista ja valkoisesta tummaa",
-            correct: function(r,g,b) { return [256-r, g, b] }
+            correct: function(r,g,b) { return [256-r, g, b]; }
         },
         {
             text: "Korvaa merkittävästi punaisen sävyiset (punainen yli 100) valkoisella",
-            correct: function(r,g,b) { if( r > 100 ) return [256,256,256]; return [r,g,b] }
+            correct: function(r,g,b) { if( r > 100 ) return [256,256,256]; return [r,g,b]; }
         },
         {
             text: "Korvaa merkittävästi punaisen sävyiset (punainen yli 100) saman vahvuisella vastavärillä",
-            correct: function(r,g,b) { if( r > 100 ) return [g,r,b]; return [r,g,b] }
+            correct: function(r,g,b) { if( r > 100 ) return [g,r,b]; return [r,g,b]; }
         }
     ];
 
