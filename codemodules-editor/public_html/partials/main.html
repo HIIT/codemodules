@@ -2,16 +2,20 @@
 
             <div class="col-md-6">
 
-                <div class="output row" id="output" style="height: 200px; padding-left: 25px;" ng-include src="template"></div>
+                <div class="output row" id="output" style="padding-left: 30px; margin-bottom: 5px;" ng-include src="template"></div>
 
-                <div class="row" ui-ace="{
-                     useWrapMode : true,
-                     showGutter: true,
-                     theme:'twilight',
-                     mode: 'javascript',
-                     onLoad: aceLoaded,
-                     onChange: aceChanged
-                     }">
+                <div clas="row">
+                    
+                    <div ui-ace="{
+                         useWrapMode : true,
+                         showGutter: true,
+                         theme:'twilight',
+                         mode: 'javascript',
+                         onLoad: aceLoaded,
+                         onChange: aceChanged
+                         }">
+                    </div>
+                    
                 </div>
 
             </div>
