@@ -41,7 +41,7 @@ app.controller("TaxController", function($scope, Evaluator, CommonInit) {
         
         var f = this.guide[ this.state ].correct;
         
-        for( var i = 500; i < 5000; i += 100 ) {
+        for( var i = 500; i < 500000; i += 100 ) {
             
             if( window.laskeVerot(i) != f(i) ) {
                 return false;
