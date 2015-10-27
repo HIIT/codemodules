@@ -5,12 +5,16 @@ app.controller("TaxController", function($scope, Evaluator, CommonInit) {
     
     CommonInit.init( $scope, Evaluator );
     
-    $scope.code = "laskeVerot = function(vuosipalkka) {\n return 500; \n}";
+    $scope.code = "laskeVerot = function(vuosipalkka) {\n //  \n return 500; \n}";
     
     $scope.init = function() {
         $scope.session.setValue( this.code );
         
         eval( $scope.code );
+    };
+    
+    $scope.loaded = function() {
+        $scope.plot();
     };
     
     $scope.plot = function() {
