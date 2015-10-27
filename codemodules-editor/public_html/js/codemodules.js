@@ -24,10 +24,10 @@ app.config(['$routeProvider', '$httpProvider', function($routeProvider) {
         .when('/', {
             templateUrl: 'partials/index.html'
         }) 
-        .when('/yhtalö', {
+        /*.when('/yhtalö', {
             controller: 'EquationController',
             templateUrl: 'partials/main.html'
-        })
+        })*/
         .when('/funktiokone', {
             controller: 'FunctionController',
             templateUrl: 'partials/main.html'

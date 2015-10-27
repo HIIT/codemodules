@@ -1,3 +1,5 @@
+/*
+
 app.controller("EquationController", function($scope, Evaluator, CommonInit) {
     
     $scope.template = 'partials/equation.html';
@@ -107,3 +109,5 @@ app.controller("EquationController", function($scope, Evaluator, CommonInit) {
     ];
 
 });
+
+*/
