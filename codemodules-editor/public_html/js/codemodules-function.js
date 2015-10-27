@@ -4,7 +4,7 @@ app.controller("FunctionController", function($scope, Evaluator, CommonInit) {
     
     CommonInit.init( $scope, Evaluator );
     
-    $scope.code = "funktio = function(luku) {\n return 0; \n}";
+    $scope.code = "funktio = function(luku) {\n //var y = -6; \n //var x = 1-y; \n //alert(x) \n return 0; \n}";
     
     $scope.init = function() {
         
