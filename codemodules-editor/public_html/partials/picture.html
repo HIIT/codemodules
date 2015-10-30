@@ -5,13 +5,17 @@
     On olemassa kolme eri pääväriä: punainen, sininen ja keltainen. Näitä värejä sekoittamalla voidaan luoda muita värejä.
     Yleisesti kuvataiteessa asetetaan vastaväri ja väri viereikkäin, koska ne korostavat tosiaan.
     </p>
-    
-<input type="file" onchange="angular.element(this).scope().loadFile()" />
+     
+<input class="btn btn-default" type="file" onchange="angular.element(this).scope().loadFile()" />
 
+<button class="btn btn-default" ng-click="run()">Aja</button>
 
-<button class="btn btn-primary" ng-click="run()">Aja</button>
+<button class="btn btn-default" ng-click="reset()">Palauta</button>
 
-<button class="btn btn-danger" ng-click="reset()">Aloita uudelleen</button>
 
 </div>
-<canvas id="canvas" width="200" height="200"></canvas>
+<div style="margin-top: 5px;" >
+    
+    <canvas id="canvas" width="200" height="200"></canvas>
+
+</div>
