@@ -4,7 +4,7 @@ app.controller("PictureController", function($scope, Evaluator, CommonInit) {
     
     CommonInit.init( $scope, Evaluator );
     
-    $scope.code = "muutaPikseli = function(pun, sin, kel) {\n // Jokainen pikseli tallennetaan 3:lla eri väriarvolla \n //(punanen, sininen, keltainen) ja nämä vaihtelevat 0 ja 255 välillä \n var p = pun;\n var s = sin;\n var k = kel;\n return [p,s,k];\n};";
+    $scope.code = "muutaPikseli = function(pun, vih, sin) {\n // Jokaisella pikselillä on kolme eri väriarvoa: punainen, vihreä ja sininen. \n // Kunkin värin arvo vaihtelee 0 ja 255 välillä. \n var p = pun;\n var v = vih;\n var s = sin;\n return [p,v,s];\n};";
     
     $scope.init = function() {
         
@@ -189,6 +189,7 @@ app.controller("PictureController", function($scope, Evaluator, CommonInit) {
                     for( var i = 0; i < 3; i++ ){
                         
                         if( user[i] != correct[i] ) {
+                            $('#tasks').effect('pulsate')
                             return false;
                         }
                     }
@@ -206,6 +207,7 @@ app.controller("PictureController", function($scope, Evaluator, CommonInit) {
         {
             text: "Muuta kaikki punaiset värit mustaksi",
             correct: function(r,g,b) { return [0, g, b]; }
+            
         },
         {
             text: "Käännä punainen väri ympäri: tummasta valkoista ja valkoisesta tummaa",
