@@ -37,6 +37,7 @@ app.controller("FunctionController", function($scope, Evaluator, CommonInit) {
             var user = window.funktio( i );
             
             if( user != correct ) {
+                $('#guide').effect("pulsate");
                 return false;
             }
         }
