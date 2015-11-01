@@ -5,12 +5,16 @@ app.controller("TaxController", function($scope, Evaluator, CommonInit) {
     
     CommonInit.init( $scope, Evaluator );
     
-    $scope.code = "laskeVerot = function(vuosipalkka) {\n return 500; \n}";
+    $scope.code = "laskeVerot = function(vuosipalkka) {\n //  \n return 500; \n}";
     
     $scope.init = function() {
         $scope.session.setValue( this.code );
         
         eval( $scope.code );
+    };
+    
+    $scope.loaded = function() {
+        $scope.plot();
     };
     
     $scope.plot = function() {
@@ -44,6 +48,7 @@ app.controller("TaxController", function($scope, Evaluator, CommonInit) {
         for( var i = 500; i < 500000; i += 100 ) {
             
             if( window.laskeVerot(i) != f(i) ) {
+                $('#tasks').effect('pulsate')
                 return false;
             }
         }
@@ -56,9 +61,10 @@ app.controller("TaxController", function($scope, Evaluator, CommonInit) {
         {
             text: "Muokkaa verojen laskentaa siten, kaikki maksavat 600 euron tasaveron",
             correct: function(salary) { return 600; }
+            
         },
         {
-            text: "Progressiivisessa verotuksessa varot mukautuvat tulojen suhteen, määritellään että alle 30000 euron vuosituloilla veroja maksetaan 600 euroa, muutoin 1000 euroa.",
+            text: "Progressiivisessa verotuksessa verot mukautuvat tulojen suhteen, määritellään että alle 30000 euron vuosituloilla veroja maksetaan 600 euroa, muutoin 1000 euroa.",
             correct: function(salary) { if( salary < 30000 ) { return 600; } else { return 1000 }; }
         },
         {

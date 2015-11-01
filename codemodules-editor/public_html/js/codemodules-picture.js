@@ -4,13 +4,47 @@ app.controller("PictureController", function($scope, Evaluator, CommonInit) {
     
     CommonInit.init( $scope, Evaluator );
     
-    $scope.code = "muutaPikseli = function(pun, sin, kel) {\n var p = pun;\n var s = sin;\n var k = kel;\n return [p,s,k];\n};";
+    $scope.code = "muutaPikseli = function(pun, vih, sin) {\n // Jokaisella pikselillä on kolme eri väriarvoa: punainen, vihreä ja sininen. \n // Kunkin värin arvo vaihtelee 0 ja 255 välillä. \n var p = pun;\n var v = vih;\n var s = sin;\n return [p,v,s];\n};";
     
     $scope.init = function() {
         
         $scope.session.setValue( this.code );
         
         eval( $scope.code );
+        
+    };
+    
+    $scope.loaded = function() {
+       
+        var canvas = document.getElementById('canvas');
+        var height = canvas.height;
+        var width = canvas.width;
+        
+        var image = new Image();
+        image.src = './res/Mona_Lisa.jpg';
+        image.width = 134;
+        image.height = 200;
+        
+        // scale image
+        var ratio = 1;
+            
+        if( image.width > width ) ratio = width / image.width;
+        if( image.height > height ) ratio = height / image.height;
+            
+        // scale canvas
+        canvas.width = image.width * ratio;
+        canvas.height = image.height * ratio;
+            
+        image.onload = function() {
+            context = canvas.getContext('2d');
+            context.drawImage( image, 0, 0, image.width, image.height, 0, 0, canvas.width, canvas.height);
+
+            $scope.canvas = canvas;
+            $scope.context = context;
+            $scope.image = context.getImageData(0, 0, canvas.width, canvas.height );
+ 
+            }
+        
     };
     
     $scope.loadFile = function() {
@@ -33,7 +67,7 @@ app.controller("PictureController", function($scope, Evaluator, CommonInit) {
             image.src = fr.result;
             
             // $scope.$apply( function() {
-            //    $scope.original = fr.result;
+            // $scope.original = fr.result;
             // });
         };
         
@@ -141,9 +175,9 @@ app.controller("PictureController", function($scope, Evaluator, CommonInit) {
         
         var f = this.guide[ this.state ].correct;
         
-        for(var r = 0; r <= 256; r += 10) {
-            for( var g = 0; g <= 256; g+= 10 ) {
-                for( var b = 0; b <= 256; b+= 10) {
+        for(var r = 0; r <= 255; r += 10) {
+            for( var g = 0; g <= 255; g+= 10 ) {
+                for( var b = 0; b <= 255; b+= 10) {
                     
                     var user = window.muutaPikseli(r,g,b);
                     var correct = f(r,g,b);
@@ -155,6 +189,7 @@ app.controller("PictureController", function($scope, Evaluator, CommonInit) {
                     for( var i = 0; i < 3; i++ ){
                         
                         if( user[i] != correct[i] ) {
+                            $('#tasks').effect('pulsate')
                             return false;
                         }
                     }
@@ -172,14 +207,15 @@ app.controller("PictureController", function($scope, Evaluator, CommonInit) {
         {
             text: "Muuta kaikki punaiset värit mustaksi",
             correct: function(r,g,b) { return [0, g, b]; }
+            
         },
         {
             text: "Käännä punainen väri ympäri: tummasta valkoista ja valkoisesta tummaa",
-            correct: function(r,g,b) { return [256-r, g, b]; }
+            correct: function(r,g,b) { return [255-r, g, b]; }
         },
         {
             text: "Korvaa merkittävästi punaisen sävyiset (punainen yli 100) valkoisella",
-            correct: function(r,g,b) { if( r > 100 ) return [256,256,256]; return [r,g,b]; }
+            correct: function(r,g,b) { if( r > 100 ) return [255,255,255]; return [r,g,b]; }
         },
         {
             text: "Korvaa merkittävästi punaisen sävyiset (punainen yli 100) saman vahvuisella vastavärillä",
