@@ -13,7 +13,9 @@ See [somewhat up-to-date demo](http://labs.humanisti.fixme.fi/codemodules/codemo
 
   * [HIIT news: Integrating programming into every school subject](http://www.hiit.fi/node/3215)
 
-## People
+## Contributors
 
   * Matti Nelimarkka
   * Arto Vihavainen
+  * Jesper Hjorth
+  * Aaro Pyyhkälä
