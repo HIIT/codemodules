@@ -1,10 +1,14 @@
 <div class="row">
 
             <div class="col-md-6">
-
-                <div class="output row" id="output" style="padding-left: 30px; margin-bottom: 5px;" ng-include src="template" onLoad="loaded()" ></div>
-
+                
                 <div clas="row">
+
+                    <div class="output" id="output" ng-include src="template" onLoad="loaded()" ></div>
+                
+                </div>
+
+                <div clas="row" style="margin-top: 5px;">
                     
                     <div ui-ace="{
                          useWrapMode : true,
@@ -41,6 +45,8 @@
                 
                 <div ng-include="'partials/javascript.html'">
                 
-            </div>
+                </div>
             
-        </div>
+            </div>
+    
+</div>
