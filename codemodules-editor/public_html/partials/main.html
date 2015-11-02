@@ -32,7 +32,7 @@
                         <tr ng-repeat="element in guide">
                             <td>{{element.text}}</td>
                             <td>
-                                <button class="btn btn-success" ng-click="assess(numLeft, varLeft, numRight, varRight, varX)" ng-show="! element.done" data-loading-text="Tarkistan" >Tarkista</button>
+                                <button class="btn btn-success" ng-click="assess( $event )" ng-show="! element.done" data-loading-text="Tarkistan" >Tarkista</button>
                                 <span class="glyphicon glyphicon-ok" ng-show="element.done"></span>
                             </td>
                         </tr>

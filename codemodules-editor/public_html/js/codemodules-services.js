@@ -40,15 +40,14 @@ app.service('CommonInit', function($http) {
         $scope.state = 0;
         $scope.session = null;
 
-        $scope.assess = function () {
+        $scope.assess = function ( $event ) {
   
-            // TODO: UI code, should be directive?
-            var target = window.event.target;
+            var target = $( $event.target );
    
-            $( target ).button('loading');
+            target.button('loading');
             
             setTimeout( function() {
-                $( target ).button('reset');
+                target.button('reset');
             }, 5000 );
             
             Evaluator.evaluate($scope.session.getValue());
