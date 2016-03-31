@@ -1,52 +1,96 @@
 <div class="row">
 
-            <div class="col-md-6">
+            <div class="col-md-6" id="exercises">
                 
                 <div clas="row">
 
-                    <div class="output" id="output" ng-include src="template" onLoad="loaded()" ></div>
+                    <!-- <div class="output" id="output" ng-include src="template_intro" onLoad="loaded()" ></div> -->
+                    <div class="output" id="output" ng-include="template_intro"></div>
+                    
+                    <button class='btn btn-block' id='toggle-jsguide' ng-click='toggleJSGuide()'>Avaa koodiohje</button>
                 
                 </div>
-
-                <div clas="row" style="margin-top: 5px;">
+                
+                
+                <!-- EXAMPLES -->
+                
+                
+                
+                <div clas="row" id="{{'task-'+$index}}" ng-repeat="element in examples" ng-init="exerciseIndex = $index">
+                    <h3>Esimerkki</h3>
+                    <p>{{element.text}}</p>
                     
-                    <div ui-ace="{
-                         useWrapMode : true,
-                         showGutter: true,
-                         theme:'twilight',
-                         mode: 'javascript',
-                         onLoad: aceLoaded,
-                         onChange: aceChanged
-                         }">
+                    <div clas="row" style="margin-top: 5px;">
+                        <div ui-ace="{
+                             useWrapMode : true,
+                             showGutter: true,
+                             theme:'twilight',
+                             mode: 'javascript',
+                             onLoad: aceLoaded,
+                             onChange: aceChanged
+                             }">
+                        </div>
                     </div>
                     
+                    <div id="{{'visual-'+exerciseIndex}}" ng-include="visual_example">
+                        
+                    </div>
+                    
+                </div>
+                
+                
+                
+                <!-- EXERCISES -->
+                
+                
+                
+                <div clas="row" id="{{'task-'+($index+examples.length)}}" ng-repeat="element in guide" ng-init="exerciseIndex = $index+examples.length">
+                    <h3>Tehtävä</h3>
+                    <p>{{element.text}}</p>
+                    
+                    <div clas="row" style="margin-top: 5px;">                        
+                        <div ui-ace="{
+                             useWrapMode : true,
+                             showGutter: true,
+                             theme:'twilight',
+                             mode: 'javascript',
+                             onLoad: aceLoaded,
+                             onChange: aceChanged
+                             }">
+                        </div>
+                    </div>
+                    
+                    <div id="{{'visual-'+exerciseIndex}}" ng-include="visual_exercise">
+                        
+                    </div>
+                    
+                </div>
+                    
+                
+
+                <div clas="row">
+
+                    <!--<div class="output" id="output" ng-include src="template_outro" onLoad="loaded()" ></div>-->
+                    <div class="output" id="output" ng-include="template_outro"></div>
+                    
+                    <div>
+                        <a href='./index.html' class='btn btn-primary'>Palaa tehtävänvalintaan</a>
+                    </div>
+                
                 </div>
 
             </div>
 
-            <div class="guide col-md-6" id="guide">
-                <table class="table table-hover table-condensed" id="tasks">
-                    <thead>
-                        <tr>
-                            <th>Tehtävä</th>
-                            <th>Valmis</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="element in guide">
-                            <td>{{element.text}}</td>
-                            <td>
-                                <button class="btn btn-success" ng-click="assess( $event )" ng-show="! element.done" data-loading-text="Tarkistan" >Tarkista</button>
-                                <span class="glyphicon glyphicon-ok" ng-show="element.done"></span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="guide col-md-6" id="jsguide" ng-show='showJSGuide'>
                 
                 <div ng-include="'partials/javascript.html'">
                 
                 </div>
             
+            </div>
+            
+            <div class="hidden" ng-repeat="i in [0]">
+                <div class="hidden" ng-include='"partials/dummy.html"' onLoad="onLoad()"></div>
             </div>
     
 </div>

@@ -10,3 +10,34 @@ footer {
     background: #f8f8f8;
     border-top: 1px solid #e7e7e7;
 }
+
+body, html {
+    margin: 0;
+    overflow: hidden;
+    height:100%;
+}
+
+.container {
+    overflow: hidden;
+    height:80%;
+}
+
+#exercises {
+    position: absolute;
+    top: 7%;
+    bottom: 0;
+    left: 0;
+    /*width: 50%;*/
+    height: 77%; /* DOJO: bubblegum */
+    overflow-y: scroll; 
+}
+
+#jsguide {
+    position: absolute;
+    top: 7%;
+    bottom: 0;
+    right: 0;
+    overflow-y: scroll;
+    /*width: 50%;*/
+    height: 77%; /* DOJO: bubblegum */
+}

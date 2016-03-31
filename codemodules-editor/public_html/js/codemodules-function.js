@@ -1,32 +1,78 @@
 app.controller("FunctionController", function($scope, Evaluator, CommonInit) {
     
-    $scope.template = 'partials/function.html';
+    // remember to have this on each template!
+    $scope.showJSGuide = false;
+    $scope.toggleJSGuide = function() {
+        $scope.showJSGuide = !$scope.showJSGuide;
+        var btn = $("#toggle-jsguide");
+        if (btn.html() == "Avaa koodiohje") btn.html("Sulje koodiohje");
+        else btn.html("Avaa koodiohje");
+    }
+    
+    $scope.template_intro = 'partials/fun/intro.html';
+    $scope.template_outro = 'partials/fun/outro.html';
+    $scope.visual_example = 'partials/fun/visual_example.html';
+    $scope.visual_exercise = 'partials/fun/visual_exercise.html';
     
     CommonInit.init( $scope, Evaluator );
     
-    $scope.code = "funktio = function(luku) {\n //var y = -6; \n //var x = 1-y; \n //alert(x) \n return 0; \n}";
+    $scope.codes = [
+        "funktio = function(luku) {\n    return 1;\n}",
+        "funktio = function(luku) {\n    return luku - 1;\n}",
+        "funktio = function(luku) {\n    //kirjoita koodisi tämän rivin alle\n    return 0;\n    //kirjoita koodisi tämän rivin yläpuolelle\n}",
+        "funktio = function(luku) {\n    //kirjoita koodisi tämän rivin alle\n    return 0;\n    //kirjoita koodisi tämän rivin yläpuolelle\n}",
+        "funktio = function(luku) {\n    //kirjoita koodisi tämän rivin alle\n    return 0;\n    //kirjoita koodisi tämän rivin yläpuolelle\n}",
+        "funktio = function(luku) {\n    //kirjoita koodisi tämän rivin alle\n    return 0;\n    //kirjoita koodisi tämän rivin yläpuolelle\n}",
+        "funktio = function(luku) {\n    //kirjoita koodisi tämän rivin alle\n    return 0;\n    //kirjoita koodisi tämän rivin yläpuolelle\n}"
+    ];
+    
+    $scope.sessions = [];
+    $scope.valueTables = [];
     
     $scope.init = function() {
+        var index = $scope.sessions.length-1;
         
-        $scope.values =  [
-            {number: -5, value: 0},
-            {number: -1, value: 0},
-            {number:  0, value: 0},
-            {number:  1, value: 0},
-            {number:  2, value: 0},
-            {number:  5, value: 0}
-        ];
-        
-        $scope.session.setValue( this.code );
-        
-        eval( $scope.code );
+        // FAILSAFE: something has gone badly wrong, should get properly fixed >.<
+        if (index >= $scope.codes.length) {
+            index = index % $scope.codes.length;
+        }
+        $scope.sessions[index].setValue( $scope.codes[index] );
+        eval( $scope.codes[index] ); //DOJO - why this should be done?
     };
     
-    $scope.run = function() {
-      
-      $scope.values.forEach( function(element){
-          element.value = window.funktio( element.number );
-      } );
+    $scope.onLoad = function() {
+        var count = $scope.examples.length + $scope.guide.length;
+        for (var i=0; i < count; ++i) {
+            $scope.valueTables[i] =  [
+                {number: -5, value: 0},
+                {number: -1, value: 0},
+                {number:  0, value: 0},
+                {number:  1, value: 0},
+                {number:  2, value: 0},
+                {number:  5, value: 0}
+            ];
+            
+            
+            var event = {target: $("#visual-"+i+".button.btn.btn-primary")};
+            $scope.run(event, i);
+        }
+        
+        // DOJO: these are needed?
+        //$scope.session.setValue( this.code );
+        
+        //eval( $scope.code );
+    };
+    
+    
+    
+    
+    $scope.run = function($event, index) {
+
+        $scope.assess($event, index);
+
+        $scope.valueTables[index].forEach( function(element){
+            element.value = window.funktio( element.number );
+        } );
 
     };
     
@@ -46,25 +92,35 @@ app.controller("FunctionController", function($scope, Evaluator, CommonInit) {
     
     };
     
+    $scope.examples = [
+        {
+            text: "Funktiokone palauttaa jokaisella syötteellä arvon yksi."
+        },
+        {
+            text: "Funktiokone palauttaa syötteen arvon pienennettyään sitä yhdellä."
+        }
+    ];
+    
     $scope.guide = [
         {
-            text: "Funktiokone palauttaa jokaisella syötteellä arvon viisi",
+            // DOJO: rehaul these descriptions!
+            text: "Funktiokone palauttaa jokaisella syötteellä arvon viisi.",
             correct: function(x) { return 5; }
         },
         {
-            text: "Funktiokone palauttaa jokaisella syötteellä luvun joka on kaksinkertainen",
+            text: "Funktiokone palauttaa jokaisella syötteellä luvun joka on kaksinkertainen.",
             correct: function(x) { return 2*x; }
         },
         {
-            text: "Funktiokone palauttaa jokaisella syötteellä luvun johon on lisätty kolme",
+            text: "Funktiokone palauttaa jokaisella syötteellä luvun johon on lisätty kolme.",
             correct: function(x) { return x+3; }
         },
         {
-            text: "Funktiokone palauttaa jokaisella syötteellä luvun neliön",
+            text: "Funktiokone palauttaa jokaisella syötteellä luvun neliön.",
             correct: function(x) { return x*x; }
         },
         {
-            text: "Funktiokone palauttaa jokaisella syötteellä luvun etäisyyden nollasta",
+            text: "Funktiokone palauttaa jokaisella syötteellä luvun itseisarvon.",
             correct: function(x) { return Math.abs(x); }
         }
         

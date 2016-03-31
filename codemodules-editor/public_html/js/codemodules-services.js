@@ -18,7 +18,7 @@ app.service('CommonInit', function($http) {
 
         $scope.proceed = function () {
             if ($scope.state >= this.guide.length) {
-                alert("that's all folks");
+                //alert("that's all folks");
             }
 
             this.guide[$scope.state].done = true;
@@ -26,22 +26,25 @@ app.service('CommonInit', function($http) {
         }
 
         $scope.aceLoaded = function (_editor) {
-            $scope.session = _editor.getSession();
-            $scope.session.setUndoManager(new ace.UndoManager());
-
+            var session = _editor.getSession();
+            session.setUndoManager(new ace.UndoManager());
+            
+            $scope.sessions.push(session);
             $scope.init();
         };
 
         $scope.aceChanged = function (e) {
-            Evaluator.evaluate($scope.session.getValue());
+            // DOJO - slow
+            for (var i=0; i!=$scope.sessions.length; ++i) {
+                Evaluator.evaluate($scope.sessions[i].getValue());
+            }
         };
 
 
         $scope.state = 0;
-        $scope.session = null;
 
-        $scope.assess = function ( $event ) {
-  
+        $scope.assess = function ( $event, sessionIndex ) {
+            
             var target = $( $event.target );
    
             target.button('loading');
@@ -50,11 +53,19 @@ app.service('CommonInit', function($http) {
                 target.button('reset');
             }, 5000 );
             
-            Evaluator.evaluate($scope.session.getValue());
+            Evaluator.evaluate($scope.sessions[ (sessionIndex % $scope.codes.length) ].getValue());//still doubled >.<
 
-            if ($scope._assess()) {
-                $scope.proceed();
+            // do not evaluate examples, exercises only
+            
+            if (sessionIndex >= $scope.examples.length) {
+                if ($scope._assess()) {
+                    $scope.proceed();
+                }
             }
+
+            setTimeout( function() { // timeout ensures that the loading text is visible for at least some time!
+                target.button('reset');
+            }, 500 );
         }
     }
 })

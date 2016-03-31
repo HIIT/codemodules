@@ -1,0 +1,15 @@
+<input class="btn btn-default" type="file" onchange="angular.element(this).scope().loadFile(exerciseIndex)" />
+
+<button class="btn btn-default" ng-click="reset(exerciseIndex)">Palauta alkuperäinen kuva</button>
+
+<button class="btn btn-default" ng-click="run($event, exerciseIndex)" data-loading-text="Käsitellään kuvaa..." >Aja koodi</button>
+<button class="btn btn-warning" ng-show="!element.done">Tehtävä on vielä tekemättä!</button>
+<button class="btn btn-success" ng-show="element.done">Tehtävä on valmis!</button>
+
+
+</div>
+<div style="margin-top: 5px;" >
+    
+    <canvas id="canvas-{{exerciseIndex}}" width="200" height="200"></canvas> <!-- initial width should get overridden -->
+
+</div>

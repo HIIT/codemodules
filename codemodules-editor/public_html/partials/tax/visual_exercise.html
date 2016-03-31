@@ -1,0 +1,6 @@
+<button class='btn btn-success' ng-click='plot( $event, exerciseIndex )' data-loading-text='Tarkistetaan...' >Aja koodi</button>
+<button class="btn btn-warning" ng-show="!element.done">Tehtävä on vielä tekemättä!</button>
+<button class="btn btn-success" ng-show="element.done">Tehtävä on valmis!</button>
+
+<div id='tax-plot-{{exerciseIndex}}' style='height: 400px; width: 100%;'></div>
+<div id='legend-{{exerciseIndex}}'></div>

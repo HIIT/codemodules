@@ -1,22 +1,60 @@
 app.controller("PictureController", function($scope, Evaluator, CommonInit) {
     
-    $scope.template = 'partials/picture.html';
+    // remember to have on each template! -DOJO
+    $scope.showJSGuide = false;
+    $scope.toggleJSGuide = function() {
+        $scope.showJSGuide = !$scope.showJSGuide;
+        var btn = $("#toggle-jsguide");
+        if (btn.html() == "Avaa koodiohje") btn.html("Sulje koodiohje");
+        else btn.html("Avaa koodiohje");
+    }
+    
+    $scope.template_intro = 'partials/rgb/intro.html';
+    $scope.template_outro = 'partials/rgb/outro.html';
+    $scope.visual_example = 'partials/rgb/visual_example.html';
+    $scope.visual_exercise = 'partials/rgb/visual_exercise.html';
     
     CommonInit.init( $scope, Evaluator );
     
-    $scope.code = "muutaPikseli = function(pun, vih, sin) {\n // Jokaisella pikselillä on kolme eri väriarvoa: punainen, vihreä ja sininen. \n // Kunkin värin arvo vaihtelee 0 ja 255 välillä. \n var p = pun;\n var v = vih;\n var s = sin;\n return [p,v,s];\n};";
+    $scope.codes = [
+        "muutaPikseli = function(pun, vih, sin) {\n    var p = 0;\n    var v = 0;\n    var s = 0;\n    return [p,v,s];\n};",
+        "muutaPikseli = function(pun, vih, sin) {\n    var p = pun;\n    var v = 0;\n    var s = sin;\n    return [p,v,s];\n};",
+        "muutaPikseli = function(pun, vih, sin) {\n    var p = sin;\n    var v = vih;\n    var s = pun;\n    return [p,v,s];\n};",
+        "muutaPikseli = function(pun, vih, sin) {\n    //tee muutoksesi tämän rivin alapuolelle\n    var p = pun;\n    var v = vih;\n    var s = sin;\n    //tee muuutoksesi tämän rivin yläpuolelle\n    return [p,v,s];\n};",
+        "muutaPikseli = function(pun, vih, sin) {\n    //tee muutoksesi tämän rivin alapuolelle\n    var p = pun;\n    var v = vih;\n    var s = sin;\n    //tee muuutoksesi tämän rivin yläpuolelle\n    return [p,v,s];\n};",
+        "muutaPikseli = function(pun, vih, sin) {\n    //tee muutoksesi tämän rivin alapuolelle\n    var p = pun;\n    var v = vih;\n    var s = sin;\n    //tee muuutoksesi tämän rivin yläpuolelle\n    return [p,v,s];\n};",
+        "muutaPikseli = function(pun, vih, sin) {\n    //tee muutoksesi tämän rivin alapuolelle\n    var p = pun;\n    var v = vih;\n    var s = sin;\n    //tee muuutoksesi tämän rivin yläpuolelle\n    return [p,v,s];\n};"
+    ];
+    
+    $scope.sessions = [];
+    $scope.canvases = [];
+    $scope.contexts = [];
+    $scope.images = [];
     
     $scope.init = function() {
+        var index = $scope.sessions.length-1;
         
-        $scope.session.setValue( this.code );
-        
-        eval( $scope.code );
-        
+        // FAILSAFE: something has gone badly wrong, should get properly fixed >.<
+        if (index >= $scope.codes.length) {
+            index = index % $scope.codes.length;
+        }
+        $scope.sessions[index].setValue( $scope.codes[index] );
+        eval( $scope.codes[index] ); //DOJO - why this should be done?
     };
     
-    $scope.loaded = function() {
-       
-        var canvas = document.getElementById('canvas');
+    $scope.onLoad = function() {
+        var count = $scope.examples.length + $scope.guide.length;
+        for (var i=0; i < count; ++i) {
+            $scope.onLoadLogic(i);
+        }
+    };
+    
+    $scope.onLoadLogic = function(i) {
+        $scope.canvases.push(null);
+        $scope.contexts.push(null);
+        $scope.images.push(null);
+        
+        var canvas = document.getElementById("canvas-"+i);
         var height = canvas.height;
         var width = canvas.width;
         
@@ -34,20 +72,18 @@ app.controller("PictureController", function($scope, Evaluator, CommonInit) {
         // scale canvas
         canvas.width = image.width * ratio;
         canvas.height = image.height * ratio;
-            
-        image.onload = function() {
+        
+        image.onload = function(event, index=i) { // DOJO - works for all browsers?
             context = canvas.getContext('2d');
             context.drawImage( image, 0, 0, image.width, image.height, 0, 0, canvas.width, canvas.height);
 
-            $scope.canvas = canvas;
-            $scope.context = context;
-            $scope.image = context.getImageData(0, 0, canvas.width, canvas.height );
- 
-            }
-        
-    };
+            $scope.canvases[index] = canvas;
+            $scope.contexts[index] = context;
+            $scope.images[index] = context.getImageData(0, 0, canvas.width, canvas.height ); 
+        };
+    }
     
-    $scope.loadFile = function() {
+    $scope.loadFile = function(canvasIndex) {
         
         var event = window.event;
         var file = event.target.files[0];
@@ -56,7 +92,7 @@ app.controller("PictureController", function($scope, Evaluator, CommonInit) {
         
         var image = new Image();
         
-        var canvas = document.getElementById('canvas');
+        var canvas = document.getElementById('canvas-'+canvasIndex);
         
         var height = canvas.height;
         var width = canvas.width;
@@ -71,7 +107,7 @@ app.controller("PictureController", function($scope, Evaluator, CommonInit) {
             // });
         };
         
-        image.onload = function() {
+        image.onload = function(index=canvasIndex) {
             
             // scale image
             var ratio = 1;
@@ -86,25 +122,25 @@ app.controller("PictureController", function($scope, Evaluator, CommonInit) {
             // set image and scale it
             context.drawImage( image, 0, 0, image.width, image.height, 0, 0, canvas.width, canvas.height);
 
-            $scope.canvas = canvas;
-            $scope.context = context;
-            $scope.image = context.getImageData(0, 0, canvas.width, canvas.height );
+            $scope.canvases[index] = canvas;
+            $scope.contexts[index] = context;
+            $scope.images[index] = context.getImageData(0, 0, canvas.width, canvas.height );
         };
         
         fr.readAsDataURL( file );
         
     };
     
-    $scope.reset = function() {
-        $scope.context.putImageData( $scope.image , 0, 0);
+    $scope.reset = function(index) { // TODO terminology index vs canvasindex vs ???
+        $scope.contexts[index].putImageData( $scope.images[index] , 0, 0);
     };
     
     
-    $scope.run = function() {
+    $scope.run = function($event, index) {
         
-        console.log( $scope.canvas.width );
+        $scope.assess($event, index);
         
-        var image = $scope.context.getImageData(0, 0, $scope.canvas.width, $scope.canvas.height );
+        var image = $scope.contexts[index].getImageData(0, 0, $scope.canvases[index].width, $scope.canvases[index].height );
         
         var d;
         for( var i = 0; i < image.data.length; i += 4 ) {
@@ -114,7 +150,7 @@ app.controller("PictureController", function($scope, Evaluator, CommonInit) {
             image.data[i+2] = d[2];   
         }
         
-        $scope.context.putImageData( image , 0, 0);
+        $scope.contexts[index].putImageData( image , 0, 0);
     };
     
     // we can use this some day
@@ -169,7 +205,8 @@ app.controller("PictureController", function($scope, Evaluator, CommonInit) {
         $scope.canvas.putImageData( $scope.image , 0, 0);
     } */
     
-    $scope.checkAnswer = function() {};
+    // TODO: apparently obsolete line:
+    // $scope.checkAnswer = function() {};
     
     $scope._assess = function() {
         
@@ -189,11 +226,10 @@ app.controller("PictureController", function($scope, Evaluator, CommonInit) {
                     for( var i = 0; i < 3; i++ ){
                         
                         if( user[i] != correct[i] ) {
-                            $('#tasks').effect('pulsate')
+                            $('#tasks').effect('pulsate'); // DOJO - FIXME?
                             return false;
                         }
                     }
-                    
                     
                 }
             }
@@ -203,23 +239,43 @@ app.controller("PictureController", function($scope, Evaluator, CommonInit) {
     
     };
     
+    $scope.examples = [
+        {
+            text: "Muutetaan kaikki värit mustaksi."
+        },
+        {
+            text: "Otetaan väristä vihreä komponentti pois."
+        },
+        {
+            text: "Vaihdetaan sininen ja punainen komponentti keskenään."
+        }
+    ]
+    
     $scope.guide = [
         {
-            text: "Muuta kaikki punaiset värit mustaksi",
+            text: "Ota väristä kaikki punaisuus pois.",
             correct: function(r,g,b) { return [0, g, b]; }
             
         },
         {
-            text: "Käännä punainen väri ympäri: tummasta valkoista ja valkoisesta tummaa",
+            text: "Käännä punaisuuden määrä vastakkaiseksi: esimerkiksi punaisen arvosta 200 tulisi 55, ja punaisen arvosta 10 tulisi 245.",
             correct: function(r,g,b) { return [255-r, g, b]; }
         },
         {
-            text: "Korvaa merkittävästi punaisen sävyiset (punainen yli 100) valkoisella",
+            text: "Korvaa punaisensävyiset värit (punaisen määrä yli 100) valkoisella",
             correct: function(r,g,b) { if( r > 100 ) return [255,255,255]; return [r,g,b]; }
         },
         {
-            text: "Korvaa merkittävästi punaisen sävyiset (punainen yli 100) saman vahvuisella vastavärillä",
-            correct: function(r,g,b) { if( r > 100 ) return [g,r,b]; return [r,g,b]; }
+            text: "Muokkaa värejä siten, että kaikista väreistä tulee ääriarvoja: jos punaisen määrä on alle 100, vaihda se nollaan, muuten vaihda punaisen määrä arvoon 255. Toista sama vihreän ja sinisen määrälle.",
+            correct: function(r,g,b) {
+                if ( r < 100 ) r = 0;
+                else r = 255;
+                if ( g < 100 ) g = 0;
+                else g = 255;
+                if ( b < 100 ) b = 0;
+                else b = 255;
+                return [r,g,b];
+            }
         }
     ];
 

@@ -1,0 +1,22 @@
+<button class='btn btn-default' ng-click='run( $event, exerciseIndex )' data-loading-text='Suorita funktiokone' >Suorita funktiokone</button>
+
+<table id='table-{{exerciseIndex}}' class="table table-condensed">
+    <p>
+        
+    </p>
+    
+    <thead>
+        <tr>
+            <th>Syöte</th>
+            <th>Arvo</th>
+        </tr>
+    </thead>
+    <tr ng-repeat="pair in valueTables[exerciseIndex]">
+        <td>
+            {{pair.number}}
+        </td>
+        <td>
+            {{pair.value}}
+        </td>
+    </tr>
+</table>
